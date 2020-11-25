@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Bienvenido al control de asociados</h1>
+    <h2>Speedcubing Guatemala</h2>
+    <h4>Programacion comercial</h4>
+    <h4>Ingenieria en Sistemas</h4>
+    <h4>Universidad Mesoamericana</h4>
+    <div class="container mt-3">
+        <h2>Listado de asociados</h2>
+        <p>Filtro de asociados</p>  
+        <form action="" method="POST">
+            <input class="form-control" id="myInput" name="myInput" type="text" placeholder="Search..">
+            <input type="submit" value="Aceptar">
+        </form>
+        <br>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Correo</th>
+              <th>Direccion</th>
+              <th>Telefono</th>
+              <th>Fecha Nacimiento</th>
+              <th>Fecha Renovacion</th>
+              <th>Especialidad</th>
+              <th>Subespecialidad</th>
+            </tr>
+          </thead>
+          <tbody id="myTable">
+              {% for i in data %}
+                <tr>
+                    <td>{{ i.node.nombre }}</td>
+                    <td>{{ i.node.apellido }}</td>
+                    <td>{{ i.node.correo }}</td>
+                    <td>{{ i.node.direccion }}</td>
+                    <td>{{ i.node.telefono }}</td>
+                    <td>{{ i.node.fechaNacimiento }}</td>
+                    <td>{{ i.node.fechaRenmem }}</td>
+                    <td>{{ i.node.especialidad.categoria }}</td>
+                    <td>{{ i.node.subespecialidad.categoria }}</td>
+                </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <script>
+      $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+          var value = $(this).val().toLowerCase();
+          $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
+        });
+      });
+      </script>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Nuevo Asociado</h1>
+    <h2>Ingreso de datos</h2>
+    <form action="" method="POST">
+        <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese su nombre">
+        </div>
+        <div class="form-group">
+            <label for="apellido">Apellido<label>
+            <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Ingrese su apellido">
+        </div>
+        <div class="form-group">
+            <label for="dianac">Fecha de nacimiento<label>
+            <input type="number" id="dianac" name="dianac" placeholder="dd">
+            <input type="number" id="mesnac" name="mesnac" placeholder="mm">
+            <input type="number" id="anionac" name="anionac" placeholder="aaaa">
+        </div>
+        <div class="form-group">
+            <label for="diaren">Fecha de renovacion de membresia<label>
+            <input type="number" id="diaren" name="diaren" placeholder="dd">
+            <input type="number" id="mesren" name="mesren" placeholder="mm">
+            <input type="number" id="anioren" name="anioren" placeholder="aaaa">
+        </div>
+        <div class="form-group">
+            <label for="direccion">Direccion<label>
+            <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Ingrese su direccion">
+        </div>
+        <div class="form-group">
+            <label for="telefono">Telefono<label>
+            <input type="number" class="form-control" id="telefono" name="telefono" placeholder="Ingrese su telefono">
+        </div>
+        <div class="form-group">
+            <label for="correo">Correo Electronico<label>
+            <input type="email" class="form-control" id="correo" name="correo" placeholder="Ingrese su correo">
+        </div>
+        <div class="form-group">
+            <label for="especialidad">Especialidad<label>
+                <select name="especialidad" id="especialidad" class="form-control">
+                    {% for i in especialidades %}
+                        <option value="{{ i.node.id }}">{{ i.node.categoria }}</option>
+                    {% endfor %}
+                </select>
+        </div>
+        <div class="form-group">
+            <label for="subespecialidad">Subespecialidad<label>
+                <select name="subespecialidad" id="subespecialidad" class="form-control">
+                    {% for i in subespecialidades %}
+                        <option value="{{ i.node.id }}">{{ i.node.categoria }}</option>
+                    {% endfor %}
+                </select>
+        </div>
+        <input type="submit" value="Aceptar">
+
+    </form>
+    
+{% endblock %}
