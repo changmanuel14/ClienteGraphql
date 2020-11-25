@@ -9,7 +9,7 @@
         <h2>Listado de asociados</h2>
         <p>Filtro de asociados</p>  
         <form action="" method="POST">
-            <input class="form-control" id="myInput" name="myInput" type="text" placeholder="Search..">
+            <input class="form-control" id="myInput" name="myInput" type="text" placeholder="Busqueda por nombre">
             <input type="submit" value="Aceptar">
         </form>
         <br>
@@ -25,6 +25,7 @@
               <th>Fecha Renovacion</th>
               <th>Especialidad</th>
               <th>Subespecialidad</th>
+              <th>Eliminar</th>
             </tr>
           </thead>
           <tbody id="myTable">
@@ -39,19 +40,11 @@
                     <td>{{ i.node.fechaRenmem }}</td>
                     <td>{{ i.node.especialidad.categoria }}</td>
                     <td>{{ i.node.subespecialidad.categoria }}</td>
+                    <td><a href="/eliminar/{{i.node.id}}">Eliminar</a></td>
                 </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
-      <script>
-      $(document).ready(function(){
-        $("#myInput").on("keyup", function() {
-          var value = $(this).val().toLowerCase();
-          $("#myTable tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-          });
-        });
-      });
-      </script>
+      
 {% endblock %}

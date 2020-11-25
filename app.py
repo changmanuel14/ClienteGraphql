@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, flash, redirect, request, Response
 from python_graphql_client import GraphqlClient
+import base64
 
 client = GraphqlClient(endpoint="http://127.0.0.1:8000/graphql/")
 
@@ -60,6 +61,18 @@ def acerca():
     return render_template('acerca.html', title='Acerca')
 
 
+@app.route("/eliminar/<id>")
+def eliminar(id):
+    #print(id)
+    aux = str(base64.b64decode(id))
+    div = aux.split(':')
+    div = div[1].split("'")
+    query = "mutation{\ndeleteAsociado(id:"+str(div[0])+"){\nasociado{\nnombre\n}\n}\n}"
+    #print(query)
+    client.execute(query=query)
+    return redirect(url_for('listar'))
+
+
 @app.route("/ingresodatos", methods=['GET', 'POST'])
 def ingresodatos():
     query = """
@@ -104,23 +117,28 @@ def ingresodatos():
         telefono = request.form["telefono"]
         direccion = request.form["direccion"]
         correo = request.form["correo"]
-        especialidad = request.form["especialidad"]
-        subespecialidad = request.form["subespecialidad"]
+        aux = str(base64.b64decode(request.form["especialidad"]))
+        div = aux.split(':')
+        div = div[1].split("'")
+        especialidad = int(div[0])
+        aux = str(base64.b64decode(request.form["subespecialidad"]))
+        div = aux.split(':')
+        div = div[1].split("'")
+        subespecialidad = int(div[0])
 
-        query = 'mutation{\ncreateAsociado(nombre: "'
-        query = query + str(nombre)+'", apellido: "'
-        query = query + str(apellido)+'", fechaRenmem: "'
-        query = query + str(anioren)+'-'+str(mesren)+'-'+str(diaren)+ '", fechaNacimiento: "'
-        query = query + str(anionac)+'-'+str(mesnac)+'-'+str(dianac)+ '", direccion:"'
-        query = query + str(direccion)+ '",telefono: '
-        query = query + str(telefono) + ', correo: "'
-        query = query + str(correo)+'", especialidad: '
-        query = query + str(especialidad) + ', subespecialidad: '
-        query = query + str(subespecialidad)+ '){\nasociado{\nid\nnombre\napellido\nfechaRenmem\nfechaNacimiento\n\
+        query1 = 'mutation{\ncreateAsociado(nombre: "'
+        query1 = query1 + str(nombre)+'", apellido: "'
+        query1 = query1 + str(apellido)+'", fechaRenmem: "'
+        query1 = query1 + str(anioren)+'-'+str(mesren)+'-'+str(diaren)+ 'T00:00:00Z", fechaNacimiento: "'
+        query1 = query1 + str(anionac)+'-'+str(mesnac)+'-'+str(dianac)+ 'T00:00:00Z", direccion:"'
+        query1 = query1 + str(direccion)+ '",telefono: '
+        query1 = query1 + str(telefono) + ', correo: "'
+        query1 = query1 + str(correo)+'", especialidad: '
+        query1 = query1 + str(especialidad) + ', subespecialidad: '
+        query1 = query1 + str(subespecialidad)+ '){\nasociado{\nid\nnombre\napellido\nfechaRenmem\nfechaNacimiento\n\
       direccion\ntelefono\ncorreo\nespecialidad{\nid\ncategoria\n}\nsubespecialidad{\nid\ncategoria\n}\n}\n}\n}'
-
-        print(query)
-        data=client.execute(query=query, verify=False)
+        print('Query be like:', query1)
+        client.execute(query=query1)
 
         return redirect(url_for('listar'))
     return render_template('ingresodatos.html', title='Ingreso de Datos', especialidades=especialidades, subespecialidades = subespecialidades)
